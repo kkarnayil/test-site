@@ -3,4 +3,5 @@
     <filter root="/apps/digi-tran/clientlibs"/>
     <filter root="/apps/digi-tran/components"/>
     <filter root="/apps/digi-tran/i18n"/>
+    <filter root="/apps/msm/digi-tran_blueprint" mode="merge"/>
 </workspaceFilter>
