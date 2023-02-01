@@ -41,4 +41,8 @@ public class ArticleContentFragmentModel {
 		return contentFragment.map(cf -> cf.getElement("articleDate")).map(ContentElement::getContent)
 				.orElse(StringUtils.EMPTY);
 	}
+	
+	public String getPath() {
+		return resource.getPath();
+	}
 }
