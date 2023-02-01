@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/digi-tran/clientlibs"/>
+    <filter root="/apps/digi-tran/components"/>
+    <filter root="/apps/digi-tran/i18n"/>
+</workspaceFilter>
