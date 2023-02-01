@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/conf/digi-tran" mode="merge"/>
+    <filter root="/conf/global/settings/workflow" mode="merge"/>
     <filter root="/content/digi-tran" mode="merge"/>
     <filter root="/content/dam/digi-tran" mode="merge">
         <exclude pattern="/content/dam/digi-tran(/.*)?"/>
         <include pattern="/content/dam/digi-tran/jcr:content(/.*)?"/>
     </filter>
     <filter root="/content/dam/digi-tran/asset.jpg" mode="merge"/>
+    <filter root="/content/dam/digi-tran/articles" mode="merge"/>
     <filter root="/content/experience-fragments/digi-tran" mode="merge"/>
+
+
+    <filter root="/var/workflow/models/digi-tran-approval-workflow" mode="merge"/>
+    
 </workspaceFilter>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/libs/settings/wcm/designs/default"
+        cq:lastModified="{Date}2023-02-01T15:20:33.540+05:30"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Digi Tran Approval workflow"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <participant
+                jcr:created="{Date}2023-02-01T15:07:40.181+05:30"
+                jcr:createdBy="admin"
+                jcr:description="Reviewer reviews the CF"
+                jcr:lastModified="{Date}2023-02-01T15:08:09.502+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Reviewer Step"
+                sling:resourceType="cq/workflow/components/model/participant">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PARTICIPANT="admin"/>
+            </participant>
+            <or
+                jcr:created="{Date}2023-02-01T15:17:44.524+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2023-02-01T15:17:44.524+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/workflow/components/model/or"
+                branches="2"
+                orSplit="true">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <deleteassetworkflow
+                        jcr:created="{Date}2023-02-01T15:19:51.078+05:30"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2023-02-01T15:20:06.437+05:30"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Reject and Delete the Article"
+                        sling:resourceType="dam/components/workflow/deleteassetworkflow">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.dam.core.process.DeleteAssetProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </deleteassetworkflow>
+                </_x0031_>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <activateresourceproc
+                        jcr:created="{Date}2023-02-01T15:20:19.516+05:30"
+                        jcr:createdBy="admin"
+                        jcr:description="A process to activate a page or asset"
+                        jcr:lastModified="{Date}2023-02-01T15:20:33.537+05:30"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Approve and Publish"
+                        sling:resourceType="wcm/workflow/components/workflow/activateresourceprocess">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </activateresourceproc>
+                </_x0032_>
+            </or>
+        </flow>
+        <variables jcr:primaryType="nt:unstructured">
+            <status
+                jcr:primaryType="nt:unstructured"
+                additionalProperties="\{}"
+                defaultValue="false"
+                name="status"
+                type="java.lang.String"/>
+        </variables>
+    </jcr:content>
+</jcr:root>
