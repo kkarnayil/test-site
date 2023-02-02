@@ -29,6 +29,7 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="digi-tran/components/search"
                 searchRoot="/content/digi-tran/en"/>
+            <logo/>
         </root>
     </jcr:content>
 </jcr:root>

@@ -2,6 +2,8 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
+        cq:lastModified="{Date}2023-02-02T11:37:35.189+05:30"
+        cq:lastModifiedBy="admin"
         cq:tags="[]"
         cq:template="/conf/digi-tran/settings/wcm/templates/xf-web-variation"
         cq:xfMasterVariation="{Boolean}true"
@@ -10,25 +12,46 @@
         jcr:title="Header"
         sling:resourceType="digi-tran/components/xfpage">
         <root
+            jcr:lastModified="{Date}2023-02-02T11:22:40.252+05:30"
+            jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
             sling:resourceType="digi-tran/components/container"
-            layout="simple">
+            layout="responsiveGrid">
+            <text
+                jcr:created="{Date}2023-02-02T11:22:51.013+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2023-02-02T11:34:53.401+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="digi-tran/components/text"
+                text="&lt;p>&lt;a href=&quot;/content/digi-tran/us/en.html&quot;>Digi Tran&lt;/a>&lt;/p>&#xd;&#xa;"
+                textIsRich="true">
+                <cq:responsive jcr:primaryType="nt:unstructured">
+                    <default
+                        jcr:primaryType="nt:unstructured"
+                        offset="0"
+                        width="2"/>
+                </cq:responsive>
+            </text>
             <navigation
+                jcr:lastModified="{Date}2023-02-02T11:24:33.524+05:30"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="digi-tran/components/navigation"
                 collectAllPages="false"
+                disableShadowing="false"
                 navigationRoot="/content/digi-tran/us/en"
                 skipNavigationRoot="false"
-                structureDepth="1"/>
-            <languagenavigation
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="digi-tran/components/languagenavigation"
-                navigationRoot="/content/digi-tran/us"
-                structureDepth="2"/>
-            <search
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="digi-tran/components/search"
-                searchRoot="/content/digi-tran/us"/>
+                structureDepth="1"
+                structureStart="1">
+                <cq:responsive jcr:primaryType="nt:unstructured">
+                    <default
+                        jcr:primaryType="nt:unstructured"
+                        offset="0"
+                        width="10"/>
+                </cq:responsive>
+            </navigation>
+            <logo/>
         </root>
     </jcr:content>
 </jcr:root>

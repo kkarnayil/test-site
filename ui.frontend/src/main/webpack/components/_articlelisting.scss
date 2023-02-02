@@ -1,4 +1,6 @@
 .cmp-articlelisting {
+    padding: 10px;
+
     .cmp-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -9,13 +11,14 @@
     .cmp-grid-item {
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 9px;
         background-color: #ffffff;
         box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
-        padding: 32px;
+        padding: 18px;
     }
 
-    .cmp-articlelisting .title {
+
+    .title {
         font-size: large;
         font-weight: bold;
         text-decoration: underline;
@@ -34,5 +37,18 @@
         width: 100%;
         height: 300px;
         object-fit: cover;
+    }
+
+    .detail-btn {
+        display: inline-block;
+        border-color: #1e5fbe;
+        background-color: #326ec8;
+        color: #fff;
+        text-shadow: 0 -0.0625rem 0 #1e5fbe;
+        padding: 0.7rem;
+        margin-top: 12px;
+        text-decoration: none;
+        width: 4rem;
+        text-align: center;
     }
 }

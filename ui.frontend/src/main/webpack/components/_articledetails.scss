@@ -10,7 +10,7 @@
         top: 50px;
         font-size: 62px;
         color: #fff;
-        left: 100px;
+        left: 190px;
     }
 
     .description {
@@ -18,7 +18,7 @@
         top: 150px;
         font-size: 28px;
         color: #fff;
-        left: 100px;
+        left: 190px;
     }
 
     .date {
@@ -26,6 +26,23 @@
         top: 200px;
         font-size: 18px;
         color: #fff;
-        left: 100px;
+        left: 190px;
+    }
+
+    .back-btn {
+        position: absolute;
+        top: 240px;
+        font-size: 18px;
+        left: 190px;
+
+        display: inline-block;
+        border-color: #1e5fbe;
+        background-color: #326ec8;
+        color: #fff;
+        text-shadow: 0 -0.0625rem 0 #1e5fbe;
+        padding: 0.6rem;
+        text-decoration: none;
+        width: 4rem;
+        text-align: center;
     }
 }

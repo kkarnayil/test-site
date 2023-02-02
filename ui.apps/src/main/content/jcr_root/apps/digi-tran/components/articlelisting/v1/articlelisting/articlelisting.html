@@ -1,10 +1,10 @@
 <div class="cmp-articlelisting" data-cmp-is="articlelisting"
     data-sly-use.list="com.digitran.core.models.ArticleContentListModel">
-
+    <h1>All Articles</h1>
     <div class="cmp-grid" data-sly-list.item="${list.articles}">
         <div class="cmp-grid-item">
             <div>
-                <img class="img" src="https://picsum.photos/400/400" />
+                <img class="img" src="${currentPage.path}.thumb.480.300.png" />
             </div>
             <div class="title">
                 ${item.modelTitle}
@@ -16,7 +16,7 @@
                 ${item.date}
             </div>
             <div class="btn-container">
-                <a href="${currentPage.path}/article.html${item.path}">Details</a>
+                <a class="detail-btn" href="${currentPage.path}/article.html${item.path}">Details</a>
             </div>
         </div>
     </div>

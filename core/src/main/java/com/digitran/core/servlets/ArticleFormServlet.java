@@ -23,6 +23,9 @@ import com.adobe.cq.dam.cfm.ContentFragment;
 import com.adobe.cq.dam.cfm.ContentFragmentException;
 import com.adobe.cq.dam.cfm.FragmentTemplate;
 import com.digitran.core.configs.CommonConfiguration;
+import com.google.common.net.MediaType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Component(service = { Servlet.class })
 @SlingServletResourceTypes(resourceTypes = "digi-tran/components/articleform/v1/articleform", methods = HttpConstants.METHOD_POST, selectors = "submit", extensions = "json")
@@ -38,6 +41,8 @@ public class ArticleFormServlet extends SlingAllMethodsServlet {
 	protected void doPost(final SlingHttpServletRequest req, final SlingHttpServletResponse resp)
 			throws ServletException, IOException {
 
+		Gson gson = new GsonBuilder().create();
+		
 		ResourceResolver resolver = req.getResourceResolver();
 
 		if (null == commonConfiguration || StringUtils.isEmpty(commonConfiguration.getArticleModelPath())
@@ -50,6 +55,7 @@ public class ArticleFormServlet extends SlingAllMethodsServlet {
 		Resource templateOrModelRsc = resolver.getResource(commonConfiguration.getArticleModelPath());
 		Resource sourceFolder = resolver.getResource(commonConfiguration.getArticlePath());
 
+		resp.setContentType(MediaType.JSON_UTF_8.toString());
 		FragmentTemplate tpl = templateOrModelRsc.adaptTo(FragmentTemplate.class);
 		try {
 			String name = "Article-" + Calendar.getInstance().getTimeInMillis();
@@ -70,11 +76,12 @@ public class ArticleFormServlet extends SlingAllMethodsServlet {
 			if (resolver.hasChanges()) {
 				resolver.commit();
 			}
+			resp.getWriter().write(gson.toJson("Success"));
+
 		} catch (ContentFragmentException e) {
-			resp.getWriter().write("Error");
+			resp.getWriter().write(gson.toJson("Error"));
+			resp.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
-
-		resp.getWriter().write("Success");
-
+		
 	}
 }

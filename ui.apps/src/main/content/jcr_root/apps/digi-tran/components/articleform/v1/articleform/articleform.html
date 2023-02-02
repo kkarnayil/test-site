@@ -1,13 +1,20 @@
 <div class="cmp-articleform" data-cmp-is="articleform">
 
-    <form action="${resource.path}.submit.json" method="POST">
+    <h1>Create Articles</h1>
+    <form class="article-form" data-action="${resource.path}.submit.json">
         <label for="articleDescription">Article Name:</label><br>
-        <input type="text" name="articleName" value=""><br>
+        <input type="text" class="inp" required name="articleName" value=""><br>
         <label for="articleDescription">Description:</label><br>
-        <input type="text" name="articleDescription" value=""><br>
+        <input type="text" class="inp" required name="articleDescription" value=""><br>
         <label for="articleDate">Date:</label>
-        <input type="date" name="articleDate"><br><br>
-        <input type="submit" value="Submit">
+        <input type="date" class="inp" required name="articleDate"><br><br>
+        <input class="article-form-btn" type="submit" value="Submit">
+        <span class="errorMsg">Please Try again later.</span>
+        <span class="successMsg">Article Created Successfully.</span>
     </form>
 
 </div>
+
+<sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+    <sly data-sly-call="${clientlib.js @ categories='digi-tran.articleform.v1'}" />
+</sly>
