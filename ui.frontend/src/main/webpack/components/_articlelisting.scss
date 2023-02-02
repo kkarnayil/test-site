@@ -1,10 +1,11 @@
 .cmp-articlelisting {
-    padding: 10px;
+    padding: 10px 195px;
+    margin-bottom: 92px;
 
     .cmp-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        column-gap: 12px;
+        column-gap: 16px;
         row-gap: 12px;
     }
 
@@ -22,6 +23,7 @@
         font-size: large;
         font-weight: bold;
         text-decoration: underline;
+        margin-bottom: 10px;
     }
 
     .description {
@@ -30,12 +32,12 @@
 
     .date {
         font-style: italic;
-        font-style: 12px;
+        font-size: 13px;
     }
 
     .img {
         width: 100%;
-        height: 300px;
+        height: 200px;
         object-fit: cover;
     }
 

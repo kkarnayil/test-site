@@ -3,14 +3,17 @@
         <img class="img"
             src="https://fastly.picsum.photos/id/366/1200/400.jpg?hmac=lGdm1s8MXBEHyimdiyxb3hdM4GgSi_LQ_zAccMwu1bY" />
     </div>
-    <div class="title">
-        ${model.article.modelTitle}
+
+    <div class="detail-container">
+        <div class="title">
+            ${model.article.modelTitle}
+        </div>
+        <div class="description">
+            ${model.article.description}
+        </div>
+        <div class="date">
+            ${model.article.date}
+        </div>
+        <a class="back-btn" href="${currentPage.parent.path}.html?wcmmode=disabled"> Back </a>
     </div>
-    <div class="description">
-        ${model.article.description}
-    </div>
-    <div class="date">
-        ${model.article.date}
-    </div>
-    <a class="back-btn" href="${currentPage.parent.path}.html?wcmmode=disabled"> Back </a>
 </div>

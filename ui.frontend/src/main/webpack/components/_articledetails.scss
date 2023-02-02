@@ -1,40 +1,40 @@
 .cmp-articledetail {
     position: relative;
 
+    .detail-container {
+        position: absolute;
+        top: 50px;
+        left: 190px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 70%;
+    }
+
     .img {
         width: 100%;
+        height: 559px;
+        object-fit: cover;
     }
 
     .title {
-        position: absolute;
-        top: 50px;
         font-size: 62px;
         color: #fff;
-        left: 190px;
+
     }
 
     .description {
-        position: absolute;
-        top: 150px;
         font-size: 28px;
         color: #fff;
-        left: 190px;
     }
 
     .date {
-        position: absolute;
-        top: 200px;
         font-size: 18px;
         color: #fff;
-        left: 190px;
     }
 
     .back-btn {
-        position: absolute;
-        top: 240px;
         font-size: 18px;
-        left: 190px;
-
         display: inline-block;
         border-color: #1e5fbe;
         background-color: #326ec8;
