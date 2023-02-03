@@ -16,4 +16,23 @@
         </div>
         <a class="back-btn" href="${currentPage.parent.path}.html?wcmmode=disabled"> Back </a>
     </div>
+    <form class="article-comments" id="comments" data-action="${resource.path}.submit.json">
+        <div>
+            <label>Add Comment</label>
+            <input type="text" class="inp" required name="comment" />
+        </div>
+        <input type="hidden" name="articlePath" value="${request.requestPathInfo.suffix}" />
+        <input type="submit" value="Add Comment" />
+        <span class="errorMsg">Please Try again later.</span>
+        <span class="successMsg">Comments Added Successfully.</span>
+
+        <div class="user-comments" data-image="${currentPage.path}.thumb.42.42.png">
+
+
+        </div>
+    </form>
 </div>
+
+<sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+    <sly data-sly-call="${clientlib.js @ categories='digi-tran.articledetail.v1'}" />
+</sly>
