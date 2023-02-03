@@ -13,6 +13,9 @@ public class Comment {
 
 	@ValueMapValue
 	private String createdDate;
+	
+	@ValueMapValue
+	private String userName;
 
 	public String getComment() {
 		return comment;
@@ -22,4 +25,7 @@ public class Comment {
 		return createdDate;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
 }

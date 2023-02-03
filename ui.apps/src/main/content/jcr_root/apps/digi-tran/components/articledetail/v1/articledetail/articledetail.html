@@ -16,23 +16,92 @@
         </div>
         <a class="back-btn" href="${currentPage.parent.path}.html?wcmmode=disabled"> Back </a>
     </div>
-    <form class="article-comments" id="comments" data-action="${resource.path}.submit.json">
+    <form class="article-comments" id="comments" data-action="${resource.path}.submit.json" style="display: none;">
         <div>
             <h2>Add Comment</h2>
             <input type="text" class="inp" required name="comment" />
         </div>
         <input type="hidden" name="articlePath" value="${request.requestPathInfo.suffix}" />
+        <input id="username" type="hidden" name="username" value="" />
+
         <input type="submit" value="Add Comment" />
+        <a class="logout-btn">Logout</a>
         <span class="errorMsg">Please Try again later.</span>
         <span class="successMsg">Comments Added Successfully.</span>
 
         <div class="user-comments" data-image="${currentPage.path}.thumb.42.42.png">
 
-
         </div>
     </form>
+    <div class="login-block" style="display: none;">
+
+        <h2>Log In to Add Comments</h2>
+
+        <fb:login-button class="fbbtn" scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+
+    </div>
 </div>
 
 <sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
     <sly data-sly-call="${clientlib.js @ categories='digi-tran.articledetail.v1'}" />
 </sly>
+
+
+
+
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '706599401000817',
+            cookie: true,
+            xfbml: true,
+            version: 'v16.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    function statusChangeCallback(response) {
+        console.log(response);
+        if (response.authResponse) {
+            $(".login-block").hide();
+            $(".article-comments").show();
+            FB.api('/me', function (response) {
+                console.log(response);
+                $("#username").val(response.name);
+            });
+        } else {
+            $(".login-block").show();
+        }
+    }
+
+    $(document).ready(function () {
+        $(".logout-btn").on("click", function () {
+            FB.logout(function (response) {
+                window.location.reload();
+            });
+        })
+    })
+
+    setTimeout(function () {
+        checkLoginState();
+    }, 1000)
+</script>

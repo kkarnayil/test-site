@@ -99,7 +99,8 @@
         font-size: 12px;
     }
 
-    .article-comments {
+    .article-comments,
+    .login-block {
         padding: 20px;
     }
 
@@ -120,5 +121,22 @@
     .comment-item {
         margin-bottom: 5px;
         font-size: 16px;
+    }
+
+    .logout-btn {
+        display: inline-block;
+        width: 7%;
+        border-color: #797777;
+        background-color: #515357;
+        color: #fff;
+        text-shadow: 0 -0.0625rem 0 #1e5fbe;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        right: 22%;
+        position: absolute;
+        text-align: center;
     }
 }

@@ -53,7 +53,7 @@
                 + "<img class='user-image' src='" + image + "' />"
                 + "<div class='content-section'>"
                 + "     <div class='comment-item'>" + item.comment + "</div>"
-                + "     <div class='author-name'>" + 'Kartik' + "</div>"
+                + "     <div class='author-name'>" + item.userName + "</div>"
                 + "     <div class='created-date'>" + item.createdDate + "</div>"
                 + " </div>"
                 + " </div>";
@@ -70,3 +70,5 @@
         document.addEventListener("DOMContentLoaded", onDocumentReady);
     }
 }());
+
+

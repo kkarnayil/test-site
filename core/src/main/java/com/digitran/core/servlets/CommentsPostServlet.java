@@ -50,11 +50,11 @@ public class CommentsPostServlet extends SlingAllMethodsServlet {
 
 		String articlePath = req.getParameter("articlePath");
 		String comment = req.getParameter("comment");
-
+		String name = req.getParameter("username");
 		if (null != articlePath && null != comment) {
 			Resource resource = resolver.getResource(articlePath);
 			if (null != resource) {
-				addComment(comment, resolver, resource);
+				addComment(comment, name, resolver, resource);
 				if (resolver.hasChanges()) {
 					resolver.commit();
 				}
@@ -98,7 +98,7 @@ public class CommentsPostServlet extends SlingAllMethodsServlet {
 
 	}
 
-	private void addComment(String comment, ResourceResolver resolver, Resource resource) throws PersistenceException {
+	private void addComment(String comment, String userName, ResourceResolver resolver, Resource resource) throws PersistenceException {
 		Resource jcrContentResource = resource.getChild("jcr:content");
 
 		if (jcrContentResource != null && jcrContentResource.hasChildren()) {
@@ -111,7 +111,7 @@ public class CommentsPostServlet extends SlingAllMethodsServlet {
 
 			Map<String, Object> properties = new HashMap<>();
 			properties.put("comment", comment);
-
+			properties.put("userName", userName);
 			Date date = Calendar.getInstance().getTime();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String createdDate = dateFormat.format(date);
