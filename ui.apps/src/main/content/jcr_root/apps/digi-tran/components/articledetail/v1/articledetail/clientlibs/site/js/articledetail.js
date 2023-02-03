@@ -59,7 +59,7 @@
                 + " </div>";
         })
         if (comments.length > 0) {
-            commentHTML = "<h1> Comments Added </h1>" + commentHTML;
+            commentHTML = "<h3>All Comments </h3>" + commentHTML;
         }
         $(".user-comments").html(commentHTML);
     }
