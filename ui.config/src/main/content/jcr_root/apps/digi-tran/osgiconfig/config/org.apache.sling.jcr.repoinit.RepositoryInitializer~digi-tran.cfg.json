@@ -2,6 +2,10 @@
     "scripts": [
         "create path (sling:OrderedFolder) /content/dam/digi-tran",
         "create path (nt:unstructured) /content/dam/digi-tran/jcr:content",
-        "set properties on /content/dam/digi-tran/jcr:content\n  set cq:conf{String} to /conf/digi-tran\n  set jcr:title{String} to \"Digi Tran\"\nend"
+        "set properties on /content/dam/digi-tran/jcr:content\n  set cq:conf{String} to /conf/digi-tran\n  set jcr:title{String} to \"Digi Tran\"\nend",
+    	"create service user articlepubuser with path system/cq:services/digitran",
+	    "set principal ACL for articlepubuser",
+	    "allow jcr:all on /content",     
+	    "end"
     ]
 }

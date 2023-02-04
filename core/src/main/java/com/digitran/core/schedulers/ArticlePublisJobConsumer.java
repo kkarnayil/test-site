@@ -1,9 +1,16 @@
 package com.digitran.core.schedulers;
 
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.jcr.Session;
+
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.event.jobs.Job;
@@ -14,21 +21,30 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(service = JobConsumer.class, immediate = true, 
-		   property = {
-				   		Constants.SERVICE_DESCRIPTION + "=Sling job to identify and publish article",
-				   		JobConsumer.PROPERTY_TOPICS + "=ArticlePublisherTopic" 
-				   	  }
-)
+import com.adobe.cq.dam.cfm.ContentFragment;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.Replicator;
+import com.digitran.core.configs.CommonConfiguration;
+import com.digitran.core.models.ArticleContentFragmentModel;
+
+@Component(service = JobConsumer.class, immediate = true, property = {
+		Constants.SERVICE_DESCRIPTION + "=Sling job to identify and publish article",
+		JobConsumer.PROPERTY_TOPICS + "=ArticlePublisherTopic" })
 public class ArticlePublisJobConsumer implements JobConsumer {
 
-	private static final String EXPIRY_SERVICE_USER = "dam-service-user";
+	private static final String EXPIRY_SERVICE_USER = "articlepubuser";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticlePublisJobConsumer.class);
 
-	
 	@Reference
 	private ResourceResolverFactory factory;
+
+	@Reference
+	private CommonConfiguration commonConfiguration;
+
+	@Reference
+	private Replicator replicator;
 
 	@Override
 	public JobResult process(final Job job) {
@@ -41,15 +57,36 @@ public class ArticlePublisJobConsumer implements JobConsumer {
 				return JobResult.FAILED;
 			}
 
-	
-		} catch (LoginException e) {
+			Session session = resolver.adaptTo(Session.class);
+
+			Resource rootFolder = resolver.getResource(commonConfiguration.getArticlePath());
+
+			if (null != rootFolder) {
+
+				while (rootFolder.listChildren().hasNext()) {
+					Resource cf = rootFolder.listChildren().next();
+					ContentFragment cfm = cf.adaptTo(ContentFragment.class);
+
+					if (null != cfm) {
+						ArticleContentFragmentModel article = cfm.adaptTo(ArticleContentFragmentModel.class);
+
+						if (article.getDate() != null) {
+							final Date articlePublishDate = DateUtils.parseDate(article.getDate(), "yyyy-MM-dd");
+							final Date currentDate = Calendar.getInstance().getTime();
+							if (DateUtils.isSameDay(articlePublishDate, currentDate)) {
+								replicator.replicate(session, ReplicationActionType.ACTIVATE, cf.getPath());
+							}
+						}
+					}
+				}
+			}
+
+		} catch (LoginException | ParseException | ReplicationException e) {
 			LOGGER.error("Exception in execution of ArticlePublisJobConsumer", e);
 			return JobResult.FAILED;
 		}
 		return JobResult.OK;
 	}
-
-
 
 	/**
 	 * Method to get Resource Resolver
