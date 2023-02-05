@@ -1,5 +1,5 @@
 {
   "user.mapping": [
-    "digi-tran.core:articlepubuser=[articlepubuser]"
+    "digi-tran.core:articlepubuserservice=[articlepubuserservice]"
   ]
 }

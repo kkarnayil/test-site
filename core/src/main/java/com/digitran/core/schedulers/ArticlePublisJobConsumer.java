@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.jcr.Session;
@@ -33,7 +34,7 @@ import com.digitran.core.models.ArticleContentFragmentModel;
 		JobConsumer.PROPERTY_TOPICS + "=ArticlePublisherTopic" })
 public class ArticlePublisJobConsumer implements JobConsumer {
 
-	private static final String EXPIRY_SERVICE_USER = "articlepubuser";
+	private static final String ARTICLE_PUB_SERVICE_USER = "articlepubuserservice";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticlePublisJobConsumer.class);
 
@@ -50,10 +51,10 @@ public class ArticlePublisJobConsumer implements JobConsumer {
 	public JobResult process(final Job job) {
 
 		LOGGER.debug("[---------------------- ArticlePublisJobConsumer Process Start ----------------------]");
-		try (ResourceResolver resolver = getServiceResolver(factory, EXPIRY_SERVICE_USER);) {
+		try (ResourceResolver resolver = getServiceResolver(factory, ARTICLE_PUB_SERVICE_USER);) {
 
 			if (resolver == null) {
-				LOGGER.debug("Resolver is null. Could not find sub-service name : {}", EXPIRY_SERVICE_USER);
+				LOGGER.debug("Resolver is null. Could not find sub-service name : {}", ARTICLE_PUB_SERVICE_USER);
 				return JobResult.FAILED;
 			}
 
@@ -63,12 +64,14 @@ public class ArticlePublisJobConsumer implements JobConsumer {
 
 			if (null != rootFolder) {
 
-				while (rootFolder.listChildren().hasNext()) {
-					Resource cf = rootFolder.listChildren().next();
+				Iterator<Resource> itr = rootFolder.listChildren();
+				
+				while (itr.hasNext()) {
+					Resource cf = itr.next();
 					ContentFragment cfm = cf.adaptTo(ContentFragment.class);
 
 					if (null != cfm) {
-						ArticleContentFragmentModel article = cfm.adaptTo(ArticleContentFragmentModel.class);
+						ArticleContentFragmentModel article = cf.adaptTo(ArticleContentFragmentModel.class);
 
 						if (article.getDate() != null) {
 							final Date articlePublishDate = DateUtils.parseDate(article.getDate(), "yyyy-MM-dd");
