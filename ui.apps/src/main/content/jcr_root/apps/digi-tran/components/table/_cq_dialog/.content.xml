@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Table Component"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs"
+                maximized="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                    <configuration
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Configuration"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <searchable
+                                jcr:primaryType="nt:unstructured"
+                                sling:orderBefore="id"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                checked="{Boolean}false"
+                                fieldDescription="Searchable"
+                                name="./searchable"
+                                text="Searchable"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                            <enablepagination
+                                jcr:primaryType="nt:unstructured"
+                                sling:orderBefore="id"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                checked="{Boolean}false"
+                                fieldDescription="Enable Pagination"
+                                name="./pagination"
+                                text="Enable Pagination"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                            <pagevalue
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                class="cq-dialog-dropdown-tab-showhide"
+                                cq-dialog-dropdown-tab-showhide-target=".list-option-tab-showhide-target"
+                                fieldLabel="Default per page value"
+                                name="./pagevalue">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <container0
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Select per page"
+                                        value="15"/>
+                                    <container1
+                                        jcr:primaryType="nt:unstructured"
+                                        text="15 per page"
+                                        value="15"/>
+                                    <container2
+                                        jcr:primaryType="nt:unstructured"
+                                        text="30 per page"
+                                        value="30"/>
+                                    <container3
+                                        jcr:primaryType="nt:unstructured"
+                                        text="45 per page"
+                                        value="45"/>
+                                </items>
+                            </pagevalue>
+                            <filterable
+                                jcr:primaryType="nt:unstructured"
+                                sling:orderBefore="id"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                checked="{Boolean}false"
+                                fieldDescription="Filterable"
+                                name="./filterable"
+                                text="Filterable"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                        </items>
+                    </configuration>
+                    <filters
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Filters"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <listings
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="{Boolean}true"
+                                fieldDescription="Listing"
+                                fieldLabel=""
+                                required="{Boolean}false">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    emptyText=""
+                                    name="./filtergrouplist">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <title
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            emptyText="e.g Call Insight CX7LZR "
+                                            fieldDescription="Filter Name"
+                                            fieldLabel="Filter Group Name"
+                                            name="./filterGroupName"/>
+                                        <filtervalues
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                            composite="{Boolean}true"
+                                            fieldDescription="Listing"
+                                            fieldLabel="Values"
+                                            required="{Boolean}false">
+                                            <field
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                emptyText=""
+                                                name="./filtervalues">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <filtervalue
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        emptyText="placeholder"
+                                                        fieldDescription="filter value"
+                                                        fieldLabel=""
+                                                        name="./filtervalue"/>
+                                                </items>
+                                            </field>
+                                        </filtervalues>
+                                    </items>
+                                </field>
+                            </listings>
+                        </items>
+                    </filters>
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Columns"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <columnlisting
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                composite="{Boolean}true"
+                                fieldDescription="Column Listing"
+                                fieldLabel=""
+                                required="{Boolean}false">
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                                    emptyText=""
+                                    name="./columnList">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <columnname
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                            emptyText="placeholder"
+                                            fieldDescription="Column Name"
+                                            fieldLabel="Column Name"
+                                            name="./columnname"/>
+                                        <columntype
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/form/select"
+                                            class="cq-dialog-dropdown-tab-showhide"
+                                            cq-dialog-dropdown-tab-showhide-target=".list-option-tab-showhide-target"
+                                            fieldLabel="Column Type"
+                                            name="./columntype">
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <container0
+                                                    jcr:primaryType="nt:unstructured"
+                                                    text="Select per page"
+                                                    value=""/>
+                                                <container1
+                                                    jcr:primaryType="nt:unstructured"
+                                                    text="Text"
+                                                    value="granite/ui/components/coral/foundation/form/textfield"/>
+                                                <container2
+                                                    jcr:primaryType="nt:unstructured"
+                                                    text="Rich Text"
+                                                    value="granite/ui/components/coral/foundation/form/textarea"/>
+                                                <container3
+                                                    jcr:primaryType="nt:unstructured"
+                                                    text="Number"
+                                                    value="granite/ui/components/coral/foundation/form/numberfield"/>
+                                            </items>
+                                        </columntype>
+                                        <sortable
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:orderBefore="id"
+                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                            checked="{Boolean}false"
+                                            fieldDescription="Sortable"
+                                            name="./sortable"
+                                            text="Sortable"
+                                            uncheckedValue="{Boolean}false"
+                                            value="{Boolean}true"/>
+                                    </items>
+                                </field>
+                            </columnlisting>
+                        </items>
+                    </columns>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
