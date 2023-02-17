@@ -13,65 +13,9 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="granite/ui/components/coral/foundation/container">
                 <items jcr:primaryType="nt:unstructured">
-                <columnlisting
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                composite="{Boolean}true"
-                                fieldDescription="Column Listing"
-                                fieldLabel=""
-                                required="{Boolean}false">
-                                <field
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container"
-                                    emptyText=""
-                                    name="./columnList">
-                                    <items jcr:primaryType="nt:unstructured">
-                                        <columnname
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                            emptyText="placeholder"
-                                            fieldDescription="Column Name"
-                                            fieldLabel="Column Name"
-                                            name="./columnname"/>
-                                        <columntype
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="granite/ui/components/foundation/form/select"
-                                            class="cq-dialog-dropdown-tab-showhide"
-                                            cq-dialog-dropdown-tab-showhide-target=".list-option-tab-showhide-target"
-                                            fieldLabel="Column Type"
-                                            name="./columntype">
-                                            <items jcr:primaryType="nt:unstructured">
-                                                <container0
-                                                    jcr:primaryType="nt:unstructured"
-                                                    text="Select per page"
-                                                    value=""/>
-                                                <container1
-                                                    jcr:primaryType="nt:unstructured"
-                                                    text="Text"
-                                                    value="granite/ui/components/coral/foundation/form/textfield"/>
-                                                <container2
-                                                    jcr:primaryType="nt:unstructured"
-                                                    text="Rich Text"
-                                                    value="granite/ui/components/coral/foundation/form/textarea"/>
-                                                <container3
-                                                    jcr:primaryType="nt:unstructured"
-                                                    text="Number"
-                                                    value="granite/ui/components/coral/foundation/form/numberfield"/>
-                                            </items>
-                                        </columntype>
-                                        <sortable
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:orderBefore="id"
-                                            sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
-                                            checked="{Boolean}false"
-                                            fieldDescription="Sortable"
-                                            name="./sortable"
-                                            text="Sortable"
-                                            uncheckedValue="{Boolean}false"
-                                            value="{Boolean}true"/>
-                                    </items>
-                                </field>
-                            </columnlisting>
+                    <well
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/well"/>
                     <search
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"

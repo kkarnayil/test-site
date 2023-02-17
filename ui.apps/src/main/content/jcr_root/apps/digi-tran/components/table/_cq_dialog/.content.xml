@@ -171,17 +171,18 @@
                                                 <container1
                                                     jcr:primaryType="nt:unstructured"
                                                     text="Text"
-                                                    value="granite/ui/components/coral/foundation/form/textfield"/>
+                                                    value="text"/>
                                                 <container2
                                                     jcr:primaryType="nt:unstructured"
                                                     text="Rich Text"
-                                                    value="granite/ui/components/coral/foundation/form/textarea"/>
+                                                    value="rte"/>
                                                 <container3
                                                     jcr:primaryType="nt:unstructured"
                                                     text="Number"
-                                                    value="granite/ui/components/coral/foundation/form/numberfield"/>
+                                                    value="number"/>
                                             </items>
                                         </columntype>
+                                       
                                         <sortable
                                             jcr:primaryType="nt:unstructured"
                                             sling:orderBefore="id"
