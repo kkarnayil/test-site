@@ -1,8 +1,8 @@
 <div class="cmp-row" data-sly-use.model="com.digitran.core.models.Row"
     data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
     <div>
-        <tr data-sly-list="${model.values}">
-            <td>${item}</td>
+        <tr class="flex" data-sly-list="${model.values}">
+            <td>${item @context ='html'}</td>
         </tr>
     </div>
 </div>
