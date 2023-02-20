@@ -69,27 +69,16 @@
       } else if (type === 'rte') {
 
         var name = "./colVal" + index;
-        field = rteHtml.cloneNode(true);
+        $.get('/apps/digi-tran/components/row/common/text.html', function (data) {
+          field = data.replaceAll("./colVal", name).replaceAll('value=""', 'value="' + value + '"');
 
-        $(field).find('.coral-Form-fieldlabel').html('Enter Value for ' + element.columnname);
-        field = field.innerHTML.replaceAll("./colVal", name);
-
-        $(".coral-Well").append("<div class='coral-Form-fieldwrapper'>" + field + "</div>").trigger("foundation-contentloaded");
-        $("div[name='" + name + "']").html(value);
-        $("input[name='" + name + "']").attr("value", value);
-
-        /*var rte = new CUI.RichText({
-          "element": $(".cq-RichText-editable[name='" + name + "']"),
-          "componentType": "text",
-          "preventCaretInitialize": true
-        });*/
-        // CUI.rte.ConfigUtils.loadConfigAndStartEditing(rte, $(".cq-RichText-editable[name='" + name + "']"), null);
+          $(field).find("input[name='" + name + "']").attr("value", value)
+          $(".coral-Well").append(field).trigger("foundation-contentloaded");
+        })
 
       }
+
     });
-
-    $(rteHtml).remove();
-
   }
 
 })(jQuery);
