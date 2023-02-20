@@ -3,7 +3,9 @@
 }
 
 div.rte-ui coral-buttongroup {
-
     visibility: visible !important;
+}
 
+.cq-Dialog[fullscreen] .cq-RichText .cq-RichText-editable {
+    height: 10rem !important;
 }

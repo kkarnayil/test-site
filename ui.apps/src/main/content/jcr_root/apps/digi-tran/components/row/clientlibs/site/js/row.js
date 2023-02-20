@@ -42,42 +42,45 @@
     var columns = data.columns;
     var valueMap = data.valueMap;
 
-    var rteHtml = $(".rte-template").parent().parent()[0]
+    $.get('/apps/digi-tran/components/row/common/text.html', function (data) {
 
-    columns.forEach((element, index) => {
+      columns.forEach((element, index) => {
 
-      var type = element.columntype;
+        var type = element.columntype;
 
-      var value = valueMap["colVal" + index];
-      if (!value) {
-        value = '';
-      }
+        var value = valueMap["colVal" + index];
+        if (!value) {
+          value = '';
+        }
 
-      var field = '';
-      if (type === 'text') {
-        field = "<div class='coral-Form-fieldwrapper'>" +
-          "  <label class='coral-Form-fieldlabel'> Enter Value for " + element.columnname + "</label>" +
-          "  <input is='coral-textfield' class='coral-Form-field coral3-Textfield' placeholder='Enter your text' name='./colVal" + index + "' value='" + value + "'>" +
+        var field = '';
+        if (type === 'text') {
+          field = "<div class='coral-Form-fieldwrapper'>" +
+            "  <label class='coral-Form-fieldlabel'> Enter Value for " + element.columnname + "</label>" +
+            "  <input is='coral-textfield' class='coral-Form-field coral3-Textfield' placeholder='Enter your text' name='./colVal" + index + "' value='" + value + "'>" +
+            "</div>";
+          $(".coral-Well").append(field);
+        } else if (type === 'number') {
+          field = "<div class='coral-Form-fieldwrapper'>" +
+            "  <label class='coral-Form-fieldlabel'>Enter Value for " + element.columnname + "</label>" +
+            "<coral-numberinput class='coral-Form-field coral3-NumberInput coral-InputGroup is-focused'  name='./colVal" + index + "' value='" + value + "'></coral-numberinput>"
           "</div>";
-        $(".coral-Well").append(field);
-      } else if (type === 'number') {
-        field = "<div class='coral-Form-fieldwrapper'>" +
-          "  <label class='coral-Form-fieldlabel'>Enter Value for " + element.columnname + "</label>" +
-          "<coral-numberinput class='coral-Form-field coral3-NumberInput coral-InputGroup is-focused'  name='./colVal" + index + "' value='" + value + "'></coral-numberinput>"
-        "</div>";
-        $(".coral-Well").append(field);
-      } else if (type === 'rte') {
+          $(".coral-Well").append(field);
+        } else if (type === 'rte') {
+          var rte = data;
+          var name = "./colVal" + index;
 
-        var name = "./colVal" + index;
-        $.get('/apps/digi-tran/components/row/common/text.html', function (data) {
-          field = data.replaceAll("./colVal", name).replaceAll('value=""', 'value="' + value + '"');
-
-          $(field).find("input[name='" + name + "']").attr("value", value)
+          field = rte.replaceAll("./colVal", name).replaceAll('value=""', 'value="' + value + '"');
+          $(field).find("input[name='" + name + "']").attr("value", value);
+          field = "<br><hr><div class='coral-Form-fieldwrapper'><br>" +
+            "<label class='coral-Form-fieldlabel'>Enter Value for " + element.columnname + "</label>" +
+            field
+          "</div>";
           $(".coral-Well").append(field).trigger("foundation-contentloaded");
-        })
 
-      }
+        }
 
+      });
     });
   }
 
