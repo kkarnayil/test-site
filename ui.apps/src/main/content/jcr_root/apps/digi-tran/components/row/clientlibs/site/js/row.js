@@ -78,12 +78,12 @@
         $("div[name='" + name + "']").html(value);
         $("input[name='" + name + "']").attr("value", value);
 
-        var rte = new CUI.RichText({
+        /*var rte = new CUI.RichText({
           "element": $(".cq-RichText-editable[name='" + name + "']"),
           "componentType": "text",
           "preventCaretInitialize": true
-        });
-        CUI.rte.ConfigUtils.loadConfigAndStartEditing(rte, $(".cq-RichText-editable[name='" + name + "']"), null);
+        });*/
+        // CUI.rte.ConfigUtils.loadConfigAndStartEditing(rte, $(".cq-RichText-editable[name='" + name + "']"), null);
 
       }
     });
