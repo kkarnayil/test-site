@@ -4,6 +4,8 @@
         border-collapse: collapse;
         width: 100%;
         padding: 20px;
+        table-layout: fixed;
+
     }
 
     td,
@@ -27,40 +29,27 @@
         background-color: #04AA6D;
         color: white;
     }
-
-    .header {
-        display: flex;
-        align-items: center;
-        background-color: #04AA6D;
-        color: white;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        flex-wrap: wrap;
-    }
-
-    .col {
-        display: flex;
-        flex-grow: 1;
-        min-width: calc(25% - 1em);
-        height: 2em;
-    }
 </style>
 
 <div class="cmp-table" data-sly-use.model="com.digitran.core.models.Table"
     data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
     data-sly-test.notEmpty="${model.columns.size != 0}">
-
-    <table>
-        <thead class="${wcmmode.edit ? 'header' : ''}" data-sly-element="${wcmmode.edit ? 'div' : 'thead'}"
-            data-sly-list="${model.columns}">
-            <th class="${wcmmode.edit ? 'col' : ''}" data-sly-element="${wcmmode.edit ? 'div' : 'th'}">
-                ${item.columnname}</th>
-        </thead>
-        <div
-            data-sly-resource="${ resource @ resourceType='wcm/foundation/components/responsivegrid', cssClassName='new-row'}">
+    <div data-sly-test.editMode="${wcmmode.edit}">
+        <table>
+            <thead data-sly-list="${model.columns}">
+                <th>${item.columnname}</th>
+            </thead>
+        </table>
+        <div data-sly-resource="${ resource @ resourceType='wcm/foundation/components/responsivegrid'}">
         </div>
-
-
-    </table>
+    </div>
+    <div data-sly-test="${!editMode}">
+        <table>
+            <thead data-sly-list="${model.columns}">
+                <th>${item.columnname}</th>
+            </thead>
+            <sly data-sly-resource="${ resource @ resourceType='wcm/foundation/components/responsivegrid'}">
+        </table>
+    </div>
 </div>
 <sly data-sly-call="${templates.placeholder @ isEmpty = !notEmpty}"></sly>

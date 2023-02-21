@@ -1,6 +1,7 @@
 package com.digitran.core.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +38,10 @@ public class Row {
 	 * @return the values
 	 */
 	public List<Object> getValues() {
-		return values;
+		if (null != values) {
+			return Collections.unmodifiableList(values);
+		} else {
+			return Collections.emptyList();
+		}
 	}
 }

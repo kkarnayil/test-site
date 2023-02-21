@@ -182,7 +182,6 @@
                                                     value="number"/>
                                             </items>
                                         </columntype>
-                                       
                                         <sortable
                                             jcr:primaryType="nt:unstructured"
                                             sling:orderBefore="id"
