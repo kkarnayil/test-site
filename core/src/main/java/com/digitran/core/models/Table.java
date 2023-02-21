@@ -1,5 +1,6 @@
 package com.digitran.core.models;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.sling.api.resource.Resource;
@@ -13,17 +14,21 @@ public class Table {
 
 	@ChildResource(name = "columnList")
 	private List<Column> columns;
-	
+
 	private ValueMap valueMap;
 
 	public List<Column> getColumns() {
-		return columns;
+		if (null != columns) {
+			return Collections.unmodifiableList(columns);
+		} else {
+			return Collections.emptyList();
+		}
 	}
-	
+
 	public void setRowMap(ValueMap valueMap) {
 		this.valueMap = valueMap;
 	}
-	
+
 	public ValueMap getRowData() {
 		return valueMap;
 	}
