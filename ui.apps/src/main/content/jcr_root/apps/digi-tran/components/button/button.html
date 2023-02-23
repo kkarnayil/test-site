@@ -1,0 +1,14 @@
+<button data-sly-use.button="com.digitran.core.models.CustomButton"
+        data-sly-use.iconTemplate="icon.html"
+        data-sly-element="${button.buttonLink.valid ? 'a' : 'button'}"
+        type="${button.buttonLink.valid ? '' : 'button'}"
+        id="${button.id}"
+        class="cmp-button btn btn-primary"
+        data-sly-attribute="${button.buttonLink.htmlAttributes}"
+        aria-label="${button.accessibilityLabel}"
+        data-cmp-clickable="${button.data ? true : false}"
+        data-cmp-data-layer="${button.data.json}"
+        target="${button.openNewTab ? '_blank' : ''}">>
+    <sly data-sly-call="${iconTemplate.icon @ icon=button.icon}"></sly>
+    <span data-sly-test="${button.text}" class="cmp-button__text">${button.text}</span>
+</button>
