@@ -1,0 +1,58 @@
+<div class="cmp-articlelisting" data-cmp-is="articlelisting">
+    <h1>All Articles</h1>
+    <div class="cmp-grid"  data-page-path="${currentPage.path}"></div>
+</div>
+
+<script>
+
+const grid = document.getElementsByClassName('cmp-grid');
+const currentPagePath = grid[0].getAttribute("data-page-path");
+const thumbnail = currentPagePath + ".thumb.480.300.png";
+
+queryFetch(`
+{
+  articleList {
+    items {
+      _path
+      articleName
+      articleDate
+      articleDescription {
+        html
+      }
+    }
+  }
+}
+`).then(data => {
+  data.data.articleList.items.forEach(article => {
+      var articleElement = `<div class="cmp-grid-item">
+            <div>
+                <img class="img" src="` +thumbnail+ `" />
+            </div>
+            <div class="title">
+                ` +article.articleName+ `
+            </div>
+            <div class="description">
+                ` +article.articleDescription.html+ `
+            </div>
+            <div class="date">
+                ` +article.articleDate+ `
+            </div>
+        </div>`
+
+        grid[0].innerHTML += articleElement;
+  })
+})
+
+
+function queryFetch(query, variables) {
+  return fetch('/content/_cq_graphql/digi-tran/endpoint.json', {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: query,
+      variables: variables
+    })
+  }).then(res => res.json())
+}
+
+</script>

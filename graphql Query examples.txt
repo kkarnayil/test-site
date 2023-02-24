@@ -1,0 +1,41 @@
+https://experienceleague.adobe.com/docs/experience-manager-65/assets/extending/content-fragments-graphql-samples.html?lang=en#graphql-sample-queries-sample-content-fragment-structure
+
+//Filter Article 
+{
+  articleList(
+    filter: {articleName: {_expressions: [{value: "Article 1", _operator: EQUALS_NOT}]}}
+  ) {
+    items {
+      articleName
+      _path
+      articleDescription {
+        html
+      }
+      articleDate
+    }
+  }
+}
+
+//All Articles
+{
+   articleList{
+     items {
+      articleName
+      _path
+      articleDescription {html}
+      articleDate
+    }
+  } 
+}
+
+
+// Article By Path
+{
+  articleByPath(_path: "/content/dam/digi-tran/articles/Article-1677167169899") {
+    item {
+      articleName
+      articleDescription {plaintext}
+      articleDate
+    }
+  }
+}
