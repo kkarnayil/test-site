@@ -29,6 +29,11 @@
         background-color: #04AA6D;
         color: white;
     }
+
+    .search-inp{
+    width: 100%;
+    margin: 20px 0;
+}
 </style>
 
 <div class="cmp-table" data-sly-use.model="com.digitran.core.models.Table"
@@ -44,12 +49,17 @@
         </div>
     </div>
     <div data-sly-test="${!editMode}">
+        <input type="text" class="search-inp"/>
         <table>
             <thead data-sly-list="${model.columns}">
                 <th>${item.columnname}</th>
             </thead>
-            <sly data-sly-resource="${ resource @ resourceType='wcm/foundation/components/responsivegrid'}">
+         <tbody class="table-body" data-api="${resource.path}"></tbody>
         </table>
+
+         <sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+   			 <sly data-sly-call="${clientlib.js @ categories='digitran.table'}"/>
+		</sly>
     </div>
 </div>
 <sly data-sly-call="${templates.placeholder @ isEmpty = !notEmpty}"></sly>

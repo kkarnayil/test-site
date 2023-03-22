@@ -5,12 +5,16 @@ import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
+import com.google.gson.annotations.Expose;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class Column {
 	
+	@Expose
 	@ValueMapValue
 	private String columnname;
 	
+	@Expose
 	@ValueMapValue
 	private String columntype;
 

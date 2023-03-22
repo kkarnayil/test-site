@@ -1,20 +1,13 @@
-<div data-sly-use.model="com.digitran.core.models.Row"
-    data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+<sly data-sly-use.model="com.digitran.core.models.RowModel" data-sly-use.templates="core/wcm/components/commons/v1/templates.html">
+<div data-sly-test.editMode="${wcmmode.edit}"
     data-sly-test.notEmpty="${model.values.size != 0}">
-    <table data-sly-test.editMode="${wcmmode.edit}">
+    <table >
         <tr data-sly-list="${model.values}">
             <td>
                 ${item @context ='html'}
             </td>
         </tr>
     </table>
-
-    <sly data-sly-test="${!editMode}">
-        <tr class="www" data-sly-list="${model.values}">
-            <td>
-                ${item @context ='html'}
-            </td>
-        </tr>
-    </sly>
 </div>
+</sly>
 <sly data-sly-call="${templates.placeholder @ isEmpty = !notEmpty}"></sly>

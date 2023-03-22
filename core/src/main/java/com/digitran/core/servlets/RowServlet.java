@@ -16,9 +16,6 @@
 package com.digitran.core.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -31,13 +28,13 @@ import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletResourceTypes;
 import org.osgi.service.component.annotations.Component;
 
-import com.digitran.core.models.RowModel;
+import com.digitran.core.models.Table;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @Component(service = { Servlet.class })
-@SlingServletResourceTypes(resourceTypes = "digi-tran/components/table", methods = HttpConstants.METHOD_GET, extensions = "json")
-public class TableServlet extends SlingSafeMethodsServlet {
+@SlingServletResourceTypes(resourceTypes = "digi-tran/components/row", methods = HttpConstants.METHOD_GET, extensions = "json")
+public class RowServlet extends SlingSafeMethodsServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,29 +42,39 @@ public class TableServlet extends SlingSafeMethodsServlet {
 	protected void doGet(final SlingHttpServletRequest req, final SlingHttpServletResponse resp)
 			throws ServletException, IOException {
 
-		final Resource tableResource = req.getResource();
-
-		final List<RowModel> rows = new ArrayList<>();
+		final Resource resource = req.getResource();
 
 		Gson gson = new GsonBuilder()
 				  .excludeFieldsWithoutExposeAnnotation()
 				  .create();
 
-		resp.setContentType("application/json");
-		
-		if (tableResource.hasChildren()) {
-			Iterator<Resource> tableChildIterator = tableResource.getChildren().iterator();
-			while (tableChildIterator.hasNext()) {
-				Resource childResource = tableChildIterator.next();
-				if(RowModel.RESOURCE_TYPE.equals(childResource.getResourceType())) {		
-					RowModel row = childResource.adaptTo(RowModel.class);
-					rows.add(row);
-				}
-			}
+		final Resource tableResource = findTableResource(resource);
+
+		if (null != tableResource) {
+			resp.setContentType("application/json");
+			Table table = tableResource.adaptTo(Table.class);
+			table.setRowMap(resource.getValueMap());
+			resp.getWriter().write(gson.toJson(table));
+		} else {
+			sendError(resp, gson);
 		}
-		
-		resp.getWriter().write(gson.toJson(rows));
+	}
+
+	private Resource findTableResource(Resource resource) {
+
+		if (resource == null) {
+			return null;
+		}
+
+		if (resource.getParent() != null && "digi-tran/components/table".equals(resource.getParent().getResourceType())) {
+			return resource.getParent();
+		} else {
+			return findTableResource(resource.getParent());
+		}
 
 	}
 
+	private void sendError(final SlingHttpServletResponse resp, final Gson gson) throws IOException {
+		resp.getWriter().write(gson.toJson("Table not found"));
+	}
 }

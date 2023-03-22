@@ -9,12 +9,18 @@ import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class Table {
+import com.google.gson.annotations.Expose;
 
+@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, resourceType = Table.RESOURCE_TYPE)
+public class Table {
+	
+	public static final String RESOURCE_TYPE = "digi-tran/components/table";
+
+	@Expose
 	@ChildResource(name = "columnList")
 	private List<Column> columns;
 
+	@Expose 
 	private ValueMap valueMap;
 
 	public List<Column> getColumns() {
