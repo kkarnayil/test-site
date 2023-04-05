@@ -17,3 +17,8 @@
     <sly data-sly-call="${clientlib.js @ categories='digi-tran.base', async=true}"/>
 </sly>
 
+<sly data-sly-test="${wcmmode.disabled}" data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+    <sly data-sly-call="${clientlib.js @ categories='hide-component'}"/>
+</sly>
+
+

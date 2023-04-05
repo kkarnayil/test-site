@@ -41,8 +41,10 @@
     data-sly-test.notEmpty="${model.columns.size != 0}">
     <div data-sly-test.editMode="${wcmmode.edit}">
         <table>
-            <thead data-sly-list="${model.columns}">
-                <th>${item.columnname}</th>
+            <thead>
+                <th data-sly-repeat="${model.columns}">${item.columnname}</th>
+                <th>Search Key</th>
+                <th>Filter Key</th>
             </thead>
         </table>
         <div data-sly-resource="${ resource @ resourceType='wcm/foundation/components/responsivegrid'}">

@@ -1,5 +1,5 @@
 <div class="cmp-articlelisting" data-cmp-is="articlelisting"
-    data-sly-use.list="com.digitran.core.models.ArticleContentListModel">
+    data-sly-use.list="com.digitran.core.models.ArticleContentListModel" data-off-time="${'yyyy-MM-dd HH:mm:ss.SSSXXX' @ format=properties.offTime}">
     <h1>All Articles</h1>
     <div class="cmp-grid" data-sly-list.item="${list.articles}">
         <div class="cmp-grid-item">

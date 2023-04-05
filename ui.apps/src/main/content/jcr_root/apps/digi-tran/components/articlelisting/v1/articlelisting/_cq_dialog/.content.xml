@@ -19,7 +19,7 @@
                     <inc
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/include"
-                        path="digi-tran/components/commons/basic/items/column/items/onofftime"/>
+                        path="/apps/digi-tran/components/commons/basic/items/column/items/onofftime"/>
                 </items>
             </column>
         </items>

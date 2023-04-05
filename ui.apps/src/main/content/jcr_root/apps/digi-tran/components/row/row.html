@@ -2,9 +2,15 @@
 <div data-sly-test.editMode="${wcmmode.edit}"
     data-sly-test.notEmpty="${model.values.size != 0}">
     <table >
-        <tr data-sly-list="${model.values}">
-            <td>
+        <tr >
+            <td  data-sly-repeat="${model.values}">
                 ${item @context ='html'}
+            </td>
+            <td>
+            	${properties.searchkey}
+            </td>
+            <td>
+            	${properties.filterkey}
             </td>
         </tr>
     </table>
