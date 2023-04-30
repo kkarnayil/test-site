@@ -98,14 +98,17 @@
 }
 
 function loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, groupSelected, groupItemSelected){
-  filterGroupselect.items.clear();
+  
+  addDefaultSelectOption(filterGroupselect, "Select Option");
+  var isOneGroupSelected = false;
   filters.forEach(element => {
     var selected = element.filterGroupName === groupSelected ? true : false;
     var item = { "value": element.filterGroupName, content:{"textContent": element.filterGroupName}, "selected":selected};
     filterGroupselect.items.add(item);
     
     if(selected && element.filtervalues){
-      filterGroupItemSelect.items.clear();
+      isOneGroupSelected = true;
+      addDefaultSelectOption(filterGroupItemSelect, "Select Option");
       element.filtervalues.forEach(filterElement => {
         var selected = filterElement.filtervalue === groupItemSelected ? true : false;
         var filterItem = { "value": filterElement.filtervalue, content:{"textContent": filterElement.filtervalue}, "selected":selected};
@@ -113,6 +116,15 @@ function loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, gr
       });
     }
   });
+
+  if(!isOneGroupSelected){
+    addDefaultSelectOption(filterGroupItemSelect, "Select Filter Group");
+  }
+}
+
+function addDefaultSelectOption(selectOption, textContent){
+  selectOption.items.clear();
+  selectOption.items.add({ "value": "", content:{"textContent": textContent}});
 }
 
 
