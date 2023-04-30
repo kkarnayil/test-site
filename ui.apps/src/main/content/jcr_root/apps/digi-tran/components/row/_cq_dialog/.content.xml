@@ -26,6 +26,20 @@
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         fieldLabel="Filter Keywords"
                         name="./filterkey"/>
+                    <filterselect
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                fieldLabel="Filter Group Select"
+                                name="./filtergroupselect">
+                                <items jcr:primaryType="nt:unstructured"></items>
+                   </filterselect>
+                    <filtervalueselect
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                fieldLabel="Filter Value Select"
+                                name="./filtervalueselect">
+                                <items jcr:primaryType="nt:unstructured"></items>
+                   </filtervalueselect>
                 </items>
             </column>
         </items>

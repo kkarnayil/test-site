@@ -20,12 +20,24 @@ public class Table {
 	@ChildResource(name = "columnList")
 	private List<Column> columns;
 
+	@Expose
+	@ChildResource(name = "filtergrouplist")
+	private List<FilterGroupModel> filtergrouplist;
+
 	@Expose 
 	private ValueMap valueMap;
 
 	public List<Column> getColumns() {
 		if (null != columns) {
 			return Collections.unmodifiableList(columns);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public List<FilterGroupModel> getFilterGroupList(){
+		if (null != filtergrouplist) {
+			return Collections.unmodifiableList(filtergrouplist);
 		} else {
 			return Collections.emptyList();
 		}

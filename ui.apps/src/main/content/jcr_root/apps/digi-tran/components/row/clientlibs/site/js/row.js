@@ -41,6 +41,7 @@
   function handleTableResponse(data) {
     var columns = data.columns;
     var valueMap = data.valueMap;
+    var filters = data.filtergrouplist;
 
     $.get('/apps/digi-tran/components/row/common/text.html', function (data) {
 
@@ -82,6 +83,39 @@
 
       });
     });
-  }
+
+    var filterGroupselect = $('coral-select[name="./filtergroupselect"]').get(0);
+    var filterGroupItemSelect = $('coral-select[name="./filtervalueselect"]').get(0);
+    var groupSelected = valueMap.filtergroupselect;
+    var groupItemSelected = valueMap.filtervalueselect;
+
+    loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, groupSelected, groupItemSelected);
+    filterGroupselect.addEventListener('change', function(event) {
+      var selectedGroup = event.target.value;
+      loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, selectedGroup)
+    });
+
+}
+
+function loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, groupSelected, groupItemSelected){
+  filterGroupselect.items.clear();
+  filters.forEach(element => {
+    var selected = element.filterGroupName === groupSelected ? true : false;
+    var item = { "value": element.filterGroupName, content:{"textContent": element.filterGroupName}, "selected":selected};
+    filterGroupselect.items.add(item);
+    
+    if(selected && element.filtervalues){
+      filterGroupItemSelect.items.clear();
+      element.filtervalues.forEach(filterElement => {
+        var selected = filterElement.filtervalue === groupItemSelected ? true : false;
+        var filterItem = { "value": filterElement.filtervalue, content:{"textContent": filterElement.filtervalue}, "selected":selected};
+        filterGroupItemSelect.items.add(filterItem);    
+      });
+    }
+  });
+}
+
+
+
 
 })(jQuery);
