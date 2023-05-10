@@ -1,0 +1,4 @@
+
+#base=js
+
+table-edit.js

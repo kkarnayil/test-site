@@ -8,6 +8,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 import com.google.gson.annotations.Expose;
 
@@ -26,6 +27,10 @@ public class Table {
 
 	@Expose 
 	private ValueMap valueMap;
+
+	@Expose 
+	@ValueMapValue
+	private boolean filterable;
 
 	public List<Column> getColumns() {
 		if (null != columns) {
@@ -49,5 +54,9 @@ public class Table {
 
 	public ValueMap getRowData() {
 		return valueMap;
+	}
+
+	public boolean getFilterable(){
+		return filterable;
 	}
 }

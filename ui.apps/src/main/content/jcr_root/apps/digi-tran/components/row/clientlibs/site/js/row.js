@@ -42,6 +42,7 @@
     var columns = data.columns;
     var valueMap = data.valueMap;
     var filters = data.filtergrouplist;
+    var filterable = data.filterable;
 
     $.get('/apps/digi-tran/components/row/common/text.html', function (data) {
 
@@ -88,12 +89,16 @@
     var filterGroupItemSelect = $('coral-select[name="./filtervalueselect"]').get(0);
     var groupSelected = valueMap.filtergroupselect;
     var groupItemSelected = valueMap.filtervalueselect;
-
+ if(filterable){
     loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, groupSelected, groupItemSelected);
     filterGroupselect.addEventListener('change', function(event) {
       var selectedGroup = event.target.value;
       loadFilterOptions(filters, filterGroupselect, filterGroupItemSelect, selectedGroup)
     });
+  }else{
+    $(filterGroupselect.parentElement).hide()
+    $(filterGroupItemSelect.parentElement).hide()
+  }
 
 }
 
