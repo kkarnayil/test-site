@@ -7,4 +7,5 @@ import com.adobe.cq.wcm.core.components.models.NavigationItem;
  */
 public interface CustomNavItem extends NavigationItem{
 
+	int getSortOrder();
 }
