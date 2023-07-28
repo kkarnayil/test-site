@@ -158,7 +158,7 @@ public class CustomNavigationImpl implements CustomNavigation {
 				}
 				final CustomNavItem childPageItem = new CustomNavItemImpl();
 				childPageItem.setPath(childPage.getPath());
-				childPageItem.setTitle(childPage.getTitle());
+				childPageItem.setTitle(StringUtils.isNotEmpty(childPage.getNavigationTitle()) ? childPage.getNavigationTitle() : childPage.getTitle());
 				childPageItem.setSortOrder(sortOrder++);
 				parentChildPages.add(childPageItem);
 			}

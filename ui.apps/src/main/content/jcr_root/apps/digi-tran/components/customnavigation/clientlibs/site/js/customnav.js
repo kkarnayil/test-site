@@ -58,6 +58,10 @@
       return;
     }
 
+    var wait = new Coral.Wait();
+    $(wait).css('display','block').css('margin', '0 auto');
+    
+    multifieldContainer.insertBefore(wait, multifieldContainer.firstChild);
     // appending nav root in suffix
     var api = currentResource +".model.json"+navRoot;
     fetch(api)
@@ -71,10 +75,13 @@
       })
       .then(data => {
         addChildPagetoMultifield(data, multified, multifieldContainer);
+        debugger;
+        wait.remove();
       })
       .catch(error => {
         // Handle any errors that occurred during the fetch
         console.error('Fetch error:', error);
+        wait.remove();
       });
   }
 
@@ -151,8 +158,8 @@
     });
     confirmDialog.on('click', '#acceptButton', function () {
       multified.items.clear();
-      populateMultifield(multified, multifieldContainer);
       confirmDialog.hide();
+      populateMultifield(multified, multifieldContainer);
     });
 
     return confirmDialog;
