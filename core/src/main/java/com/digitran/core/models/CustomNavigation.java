@@ -2,12 +2,10 @@ package com.digitran.core.models;
 
 import java.util.List;
 
-import com.adobe.cq.wcm.core.components.models.Navigation;
-
 /**
  * The Interface CustomNavigation.
  */
-public interface CustomNavigation extends Navigation {
+public interface CustomNavigation {
 
 	/**
 	 * Gets the custom nav items.
@@ -15,5 +13,12 @@ public interface CustomNavigation extends Navigation {
 	 * @return the custom nav items
 	 */
 	List<CustomNavItem> getCustomNavItems();
-	
+
+	/**
+	 * Gets the parent child pages.
+	 *
+	 * @return the parent child pages
+	 */
+	List<CustomNavItem> getParentChildPages();
+
 }
