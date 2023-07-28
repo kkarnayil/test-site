@@ -8,11 +8,13 @@
     titleFieldItem:"input[name='./linkHeading']",
     pathFieldItem: "input[name='./link']",
     sortFieldItem: "input[name='./sortOrder']",
-    rootPathFieldEl: "foundation-autocomplete [name='./navigationRoot'] input"
+    rootPathFieldEl: "foundation-autocomplete [name='./navigationRoot'] input",
+    includeNavRoot: "input[name='./includeNavRoot']",
+    navRootHeading: ".nav-root-heading-container"
   };
 
   var currentResource;
-
+  var i = 0;
   $(document).on("dialog-loaded", function (e) {
 
     var $dialog = e.dialog;
@@ -34,6 +36,12 @@
       $(selectors.getChildPagesBtn).click(function () {
         handleGetAllChildClick(multified, multifieldContainer, confirmDialog);
       });
+
+      $(selectors.includeNavRoot).click(function(){
+        handleNavRootTitleField(dialogContent);
+      });
+
+      handleNavRootTitleField(dialogContent);
     }
 
     $dialog.on("click", ".cq-dialog-submit", function (e) {
@@ -41,6 +49,17 @@
     });
 
   });
+
+  function handleNavRootTitleField(dialogContent){
+   
+    var checkbox = dialogContent.querySelector(selectors.includeNavRoot);
+    if(checkbox && checkbox.checked){
+     $(dialogContent).find(selectors.navRootHeading).removeClass("hide");
+    }else{
+      $(dialogContent).find(selectors.navRootHeading).addClass("hide");
+    }
+
+  }
 
   function handleGetAllChildClick(multified, multifieldContainer, confirmDialog) {
 
@@ -64,6 +83,7 @@
     multifieldContainer.insertBefore(wait, multifieldContainer.firstChild);
     // appending nav root in suffix
     var api = currentResource +".model.json"+navRoot;
+    i = 0;
     fetch(api)
       .then(response => {
         // Check if the response is successful (status code between 200 and 299)
@@ -75,7 +95,6 @@
       })
       .then(data => {
         addChildPagetoMultifield(data, multified, multifieldContainer);
-        debugger;
         wait.remove();
       })
       .catch(error => {
@@ -91,23 +110,28 @@
       return;
     }
 
-    var i = 0;
+   
     // call back method to check the selected visibility rules.
     const callback = function (mutationsList, observer) {
       for (const mutation of mutationsList) {
+
+        if(mutation?.addedNodes.length<=0 || i == data.parentChildPages.length){
+         break;
+        }
+
         var multifieldItem = $(mutation.addedNodes);
-        if (multifieldItem && multifieldItem.length > 0) {
+
           $(multifieldItem).find(selectors.titleFieldItem).val(data.parentChildPages[i].title);
           $(multifieldItem).find(selectors.pathFieldItem).val(data.parentChildPages[i].path);
           $(multifieldItem).find(selectors.sortFieldItem).val(data.parentChildPages[i].sortOrder);
-        }
-        i++;
+          i++;
       }
 
-      // disconnect observer when all rules are populated.
-      if (i == 2) {
+      if (i == data.parentChildPages.length ) {
         observer.disconnect();
       }
+
+      
     };
 
     const config = {
@@ -124,7 +148,6 @@
       multified.items.add();
     }
     showMultifield(multifieldContainer);
-
 
   }
 

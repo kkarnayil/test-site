@@ -3,7 +3,7 @@
     jcr:primaryType="nt:unstructured"
     jcr:title="Navigation"
     sling:resourceType="cq/gui/components/authoring/dialog"
-    extraClientlibs="[core.wcm.components.navigation.v1.editor,digitran.customnav]"
+    extraClientlibs="[core.wcm.components.navigation.v1.editor,digitran.customnavigation]"
     helpPath="https://www.adobe.com/go/aem_cmp_navigation_v2"
     trackingFeature="core-components:navigation:v2">
     <content
@@ -43,6 +43,18 @@
                                                 text="Include Nav root"
                                                 uncheckedValue="{Boolean}false"
                                                 value="{Boolean}true"/>
+                                            <container
+                                                granite:class="hide nav-root-heading-container"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <navrootheading
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        fieldLabel="Nav Root Title"
+                                                        name="./navRootHeading"/>
+                                                </items>
+                                            </container>
                                             <collectAllPages
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:hideResource="{Boolean}true"/>
@@ -56,8 +68,8 @@
                                                         sling:resourceType="granite/ui/components/coral/foundation/button"
                                                         formId="fetchChildPagesBtn"
                                                         icon="linkPage"
-                                                        variant="primary"
-                                                        text="Get All Child Pages"/>
+                                                        text="Get All Child Pages"
+                                                        variant="primary"/>
                                                     <container
                                                         granite:class="hide childpages-multifield"
                                                         jcr:primaryType="nt:unstructured"

@@ -56,6 +56,10 @@ public class CustomNavigationImpl implements CustomNavigation {
 	@ValueMapValue
 	private String navigationRoot;
 	
+	/** The navigation root. */
+	@ValueMapValue
+	private String navRootHeading;
+	
 	/** The include nav root. */
 	@ValueMapValue
 	private boolean includeNavRoot;
@@ -129,7 +133,7 @@ public class CustomNavigationImpl implements CustomNavigation {
 		Page page = pageManager.getPage(navigationRoot);
 		if(Objects.nonNull(page)) {
 			CustomNavItem customNavItem = new CustomNavItemImpl();
-			customNavItem.setTitle(page.getTitle());
+			customNavItem.setTitle(StringUtils.isNotEmpty(navRootHeading) ? navRootHeading : page.getTitle());
 			customNavItem.setPath(page.getPath());
 			customNavItem.setSortOrder(-1);
 			items.add(customNavItem);
