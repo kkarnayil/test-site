@@ -50,30 +50,4 @@ public class LinkObj {
 		return linkHeading;
 	}
 	
-	/**
-	 * Sets the link heading.
-	 *
-	 * @param linkHeading the new link heading
-	 */
-	public void setLinkHeading(String linkHeading) {
-		this.linkHeading = linkHeading;
-	}
-
-	/**
-	 * Sets the link.
-	 *
-	 * @param link the new link
-	 */
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	/**
-	 * Sets the sort order.
-	 *
-	 * @param sortOrder the new sort order
-	 */
-	public void setSortOrder(int sortOrder) {
-		this.sortOrder = sortOrder;
-	}
 }

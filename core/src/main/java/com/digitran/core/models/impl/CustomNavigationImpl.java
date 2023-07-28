@@ -30,7 +30,7 @@ import com.day.cq.wcm.api.PageManager;
 import com.digitran.core.models.CustomNavItem;
 import com.digitran.core.models.CustomNavigation;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CustomNavigationImpl.
  */
