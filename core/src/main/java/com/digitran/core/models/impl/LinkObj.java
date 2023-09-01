@@ -3,6 +3,7 @@ package com.digitran.core.models.impl;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 /**
@@ -22,6 +23,9 @@ public class LinkObj {
 	/** The sort order. */
 	@ValueMapValue
 	private int sortOrder;
+
+	@Self
+	private Resource resource;
 
 	/**
 	 * Gets the link.
@@ -49,5 +53,14 @@ public class LinkObj {
 	public String getLinkHeading() {
 		return linkHeading;
 	}
-	
+
+	/**
+	 * Gets the path.
+	 *
+	 * @return the path
+	 */
+	public Resource getResource() {
+		return resource;
+	}
+
 }

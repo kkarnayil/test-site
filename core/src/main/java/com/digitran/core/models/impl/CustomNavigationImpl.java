@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.PersistenceException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Exporter;
@@ -99,17 +101,19 @@ public class CustomNavigationImpl implements CustomNavigation {
 			addNavRoot();		
 		}
 		
-		if (Objects.nonNull(childPages)) {
-			childPages.stream().map(childPageItem -> {
-				CustomNavItemImpl customNavItem = new CustomNavItemImpl();
-				customNavItem.setTitle(childPageItem.getLinkHeading());
-				customNavItem.setPath(childPageItem.getLink());
-				customNavItem.setSortOrder(childPageItem.getSortOrder());
-				return customNavItem;
-			}).forEach(items::add);
+		for (LinkObj childPageItem : childPages) {
+			final Page childPage = pageManager.getPage(childPageItem.getLink().replace(".html", ""));		
+			if (null == childPage || childPage.isHideInNav()) {
+				deletePageFromMultifield(childPageItem);
+				continue;		
+			}	
+			final CustomNavItemImpl customNavItem = new CustomNavItemImpl();
+			customNavItem.setTitle(StringUtils.isNotBlank(childPage.getNavigationTitle()) ? childPage.getNavigationTitle() : childPage.getTitle());
+			customNavItem.setPath(childPageItem.getLink());
+			customNavItem.setSortOrder(childPageItem.getSortOrder());
+			items.add(customNavItem);
 		}
-
-		
+	
 		if (Objects.nonNull(customLinks)) {
 			customLinks.stream().map(externalLinkItem -> {
 				CustomNavItemImpl customNavItem = new CustomNavItemImpl();
@@ -124,6 +128,24 @@ public class CustomNavigationImpl implements CustomNavigation {
 		items.sort(new CustomSort("ASC"));
 		log.info("After Sort: {}", items);
 		
+	}
+	
+	/**
+	 * Delete page from multifield.
+	 *
+	 * @param childPageItem the child page item
+	 */
+	private void deletePageFromMultifield(LinkObj childPageItem)  {
+		final Resource mfItemResource = childPageItem.getResource();
+		if (null != mfItemResource) {		
+			log.debug("Page is removed or made hide in nav : {}", childPageItem.getLink());		
+			try {
+				resolver.delete(mfItemResource);
+				resolver.commit();
+			} catch (PersistenceException e) {
+				log.error("Error while removing node", e);
+			}
+		}
 	}
 
 	/**
@@ -162,7 +184,6 @@ public class CustomNavigationImpl implements CustomNavigation {
 				}
 				final CustomNavItem childPageItem = new CustomNavItemImpl();
 				childPageItem.setPath(childPage.getPath());
-				childPageItem.setTitle(StringUtils.isNotEmpty(childPage.getNavigationTitle()) ? childPage.getNavigationTitle() : childPage.getTitle());
 				childPageItem.setSortOrder(sortOrder++);
 				parentChildPages.add(childPageItem);
 			}
