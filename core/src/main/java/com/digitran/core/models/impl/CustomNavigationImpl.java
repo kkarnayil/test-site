@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -20,9 +21,11 @@ import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ChildResource;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +34,6 @@ import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.digitran.core.models.CustomNavItem;
 import com.digitran.core.models.CustomNavigation;
-
 
 /**
  * The Class CustomNavigationImpl.
@@ -53,15 +55,15 @@ public class CustomNavigationImpl implements CustomNavigation {
 	/** The resolver. */
 	@SlingObject
 	private ResourceResolver resolver;
-	
+
 	/** The navigation root. */
 	@ValueMapValue
 	private String navigationRoot;
-	
+
 	/** The navigation root. */
 	@ValueMapValue
 	private String navRootHeading;
-	
+
 	/** The include nav root. */
 	@ValueMapValue
 	private boolean includeNavRoot;
@@ -74,12 +76,15 @@ public class CustomNavigationImpl implements CustomNavigation {
 	@ChildResource
 	private List<LinkObj> childPages;
 
+	@OSGiService
+	private SlingSettingsService slingSettingsService;
+
 	/** The parent child pages. */
 	private List<CustomNavItem> parentChildPages;
 
 	/** The items. */
 	private List<CustomNavItem> items;
-	
+
 	/** The page manager. */
 	private PageManager pageManager;
 
@@ -88,32 +93,51 @@ public class CustomNavigationImpl implements CustomNavigation {
 	 */
 	@PostConstruct
 	protected void init() {
-		
+
 		pageManager = resolver.adaptTo(PageManager.class);
-		
+
 		items = new ArrayList<>();
-		
+
 		if (Objects.nonNull(request.getRequestPathInfo().getSuffix())) {
 			populateChildPages(request.getRequestPathInfo().getSuffix());
 		}
 
-		if(includeNavRoot && StringUtils.isNotEmpty(navigationRoot)) {		
-			addNavRoot();		
+		if (includeNavRoot && StringUtils.isNotEmpty(navigationRoot)) {
+			addNavRoot();
 		}
-		
-		for (LinkObj childPageItem : childPages) {
-			final Page childPage = pageManager.getPage(childPageItem.getLink().replace(".html", ""));		
-			if (null == childPage || childPage.isHideInNav()) {
-				deletePageFromMultifield(childPageItem);
-				continue;		
-			}	
-			final CustomNavItemImpl customNavItem = new CustomNavItemImpl();
-			customNavItem.setTitle(StringUtils.isNotBlank(childPage.getNavigationTitle()) ? childPage.getNavigationTitle() : childPage.getTitle());
-			customNavItem.setPath(childPageItem.getLink());
-			customNavItem.setSortOrder(childPageItem.getSortOrder());
-			items.add(customNavItem);
+
+		if (Objects.nonNull(childPages)) {
+			for (LinkObj childPageItem : childPages) {
+
+				final Page childPage = pageManager.getPage(childPageItem.getLink().replace(".html", ""));
+				String pageTitle = StringUtils.isNotBlank(childPage.getNavigationTitle())
+						? childPage.getNavigationTitle()
+						: childPage.getTitle();
+
+				if (slingSettingsService.getRunModes().contains("author")) {
+
+					// delete page if hide in nav or page is deleted.
+					if (null == childPage || childPage.isHideInNav()) {
+						deletePageFromMultifield(childPageItem);
+						continue;
+					}
+
+					// if the page title is not matching, update latest title in multifield
+					if (!pageTitle.equals(childPageItem.getLinkHeading())) {
+						changePageTitleInMultifield(childPageItem, pageTitle);
+					}
+				}
+
+				// code add page multifield items to the list
+				final CustomNavItemImpl customNavItem = new CustomNavItemImpl();
+				customNavItem.setTitle(pageTitle);
+				customNavItem.setPath(childPageItem.getLink());
+				customNavItem.setSortOrder(childPageItem.getSortOrder());
+				items.add(customNavItem);
+			}
 		}
-	
+
+		// Code to add custom links to the list
 		if (Objects.nonNull(customLinks)) {
 			customLinks.stream().map(externalLinkItem -> {
 				CustomNavItemImpl customNavItem = new CustomNavItemImpl();
@@ -122,23 +146,53 @@ public class CustomNavigationImpl implements CustomNavigation {
 				customNavItem.setSortOrder(externalLinkItem.getSortOrder());
 				return customNavItem;
 			}).forEach(items::add);
-		}	
+		}
 
-		log.info("Before Sort: {}", items);
-		items.sort(new CustomSort("ASC"));
-		log.info("After Sort: {}", items);
-		
+		sortList();
+
 	}
-	
+
+	/**
+	 * Sort list.
+	 */
+	private void sortList() {
+		if (!items.isEmpty()) {
+			log.info("Before Sort: {}", items);
+			items.sort(new CustomSort("ASC"));
+			log.info("After Sort: {}", items);
+		}
+	}
+
+	/**
+	 * Change page title in multifield.
+	 *
+	 * @param childPageItem the child page item
+	 * @param newTitle      the new title
+	 */
+	private void changePageTitleInMultifield(LinkObj childPageItem, String newTitle) {
+		final Resource mfItemResource = childPageItem.getResource();
+		if (null != mfItemResource) {
+			log.debug("updating title in page multifield node : old :{} => new :{}", childPageItem.getLinkHeading(),
+					newTitle);
+			ModifiableValueMap valueMap = mfItemResource.adaptTo(ModifiableValueMap.class);
+			valueMap.put("linkHeading", newTitle);
+			try {
+				resolver.commit();
+			} catch (PersistenceException e) {
+				log.error("Error while updating node", e);
+			}
+		}
+	}
+
 	/**
 	 * Delete page from multifield.
 	 *
 	 * @param childPageItem the child page item
 	 */
-	private void deletePageFromMultifield(LinkObj childPageItem)  {
+	private void deletePageFromMultifield(LinkObj childPageItem) {
 		final Resource mfItemResource = childPageItem.getResource();
-		if (null != mfItemResource) {		
-			log.debug("Page is removed or made hide in nav : {}", childPageItem.getLink());		
+		if (null != mfItemResource) {
+			log.debug("Page is removed or made hide in nav : {}", childPageItem.getLink());
 			try {
 				resolver.delete(mfItemResource);
 				resolver.commit();
@@ -153,7 +207,7 @@ public class CustomNavigationImpl implements CustomNavigation {
 	 */
 	private void addNavRoot() {
 		Page page = pageManager.getPage(navigationRoot);
-		if(Objects.nonNull(page)) {
+		if (Objects.nonNull(page)) {
 			CustomNavItem customNavItem = new CustomNavItemImpl();
 			customNavItem.setTitle(StringUtils.isNotEmpty(navRootHeading) ? navRootHeading : page.getTitle());
 			customNavItem.setPath(page.getPath());
@@ -168,9 +222,9 @@ public class CustomNavigationImpl implements CustomNavigation {
 	 * @param rootPage the root page
 	 */
 	private void populateChildPages(final String rootPage) {
-		
+
 		log.debug("Root Page :{}", rootPage);
-		
+
 		final Page page = pageManager.getPage(rootPage);
 
 		if (Objects.nonNull(page) && page.hasContent()) {
@@ -183,6 +237,9 @@ public class CustomNavigationImpl implements CustomNavigation {
 					continue;
 				}
 				final CustomNavItem childPageItem = new CustomNavItemImpl();
+				childPageItem.setTitle(
+						StringUtils.isNotBlank(childPage.getNavigationTitle()) ? childPage.getNavigationTitle()
+								: childPage.getTitle());
 				childPageItem.setPath(childPage.getPath());
 				childPageItem.setSortOrder(sortOrder++);
 				parentChildPages.add(childPageItem);

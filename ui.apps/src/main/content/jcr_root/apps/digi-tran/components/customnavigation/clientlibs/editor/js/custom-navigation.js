@@ -121,7 +121,7 @@
 
         var multifieldItem = $(mutation.addedNodes);
 
-         // $(multifieldItem).find(selectors.titleFieldItem).val(data.parentChildPages[i].title);
+          $(multifieldItem).find(selectors.titleFieldItem).val(data.parentChildPages[i].title);
           $(multifieldItem).find(selectors.pathFieldItem).val(data.parentChildPages[i].path);
           $(multifieldItem).find(selectors.sortFieldItem).val(data.parentChildPages[i].sortOrder);
           i++;
